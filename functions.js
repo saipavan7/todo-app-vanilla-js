@@ -10,7 +10,6 @@ export const fetchTodos =()=>{
 }
 
 export const renderTodos = (todos)=>{
-    console.log(todos);
     todoList.innerHTML='';
     todos.forEach(todo => {
     const li = document.createElement('li');
@@ -44,4 +43,19 @@ export const addTodo = (text)=>{
 
 }
 
+export function toggleTodo(id, todos){
+    todos = todos.map(todo=> todo.id===id?{...todo , completed:!todo.completed}
+    :todo
+        )
+
+    saveTodos(todos);
+}
+
+export function deleteTodo(id, todos){
+
+    todos = todos.filter(todo=> todo.id!==id)
+
+    saveTodos(todos);
+
+}
 
