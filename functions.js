@@ -16,13 +16,24 @@ export const renderTodos = (todos)=>{
 
     li.dataset.id = todo.id;
     
-    li.innerHTML = `<input type="checkbox" ${todo.isCompleted?'checked':''}/>
+    li.innerHTML = `<input type="checkbox" ${todo.completed?'checked':''}/>
                     <span> ${todo.text} </span>
                     <button> X </button>`
 
         todoList.appendChild(li);
 
 });
+}
+
+export function getFilteredTodos(filterVal){
+    const todos = fetchTodos();
+    if (filterVal == "active"){
+        return todos.filter(todo=> !todo.completed);
+    }
+    if(filterVal == "completed"){
+        return todos.filter(todo=> todo.completed);
+    }
+    return todos;
 }
 
 const saveTodos = (todos)=>{

@@ -1,11 +1,13 @@
-import { fetchTodos , renderTodos , addTodo , toggleTodo, deleteTodo} from "./functions.js";
+import { fetchTodos , renderTodos , addTodo , toggleTodo, deleteTodo , getFilteredTodos} from "./functions.js";
 
 const todoForm = document.querySelector('#todo-form');
 const todoList = document.querySelector('#todo-list');
 const todoInput  = document.querySelector('#todo-input');
+const filter = document.querySelector('#filters');
 
+let currentFilter = 'all';
 
-let todos = fetchTodos();
+let todos = getFilteredTodos(currentFilter);
 
 renderTodos(todos);
 
@@ -54,6 +56,23 @@ function handleTodoClick(e){
 
 
 }
+
+filter.addEventListener('click' , (e)=>{
+    const button = e.target.closest('button');
+
+    if(!button) return;
+
+    const filterVal = button.dataset.filter;
+
+    renderTodos(getFilteredTodos(filterVal));
+
+    document.querySelectorAll("#filters button").forEach(btn => {
+  btn.classList.remove("active-filter");
+});
+
+    button.classList.add('active-filter');
+})
+
 
 
 
