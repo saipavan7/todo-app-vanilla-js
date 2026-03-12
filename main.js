@@ -4,20 +4,25 @@ const todoForm = document.querySelector('#todo-form');
 const todoList = document.querySelector('#todo-list');
 const todoInput  = document.querySelector('#todo-input');
 const filter = document.querySelector('#filters');
+const todoCount =document.querySelector('#todo-count');
 
 let currentFilter = 'all';
 
-let todos = getFilteredTodos(currentFilter);
+let todos = fetchTodos();
+console.log(todos);
 
-renderTodos(todos);
+refreshTodos(todos);
 
-function refreshTodos(){
- const updatedTodos = fetchTodos();
- console.log(updatedTodos);
-    renderTodos(updatedTodos);
-    todos = updatedTodos;
+function updateTodoCount(){
+    const remaining = todos.filter(todo=> !todo.completed).length;
+    todoCount.textContent = `${remaining} items left`;
+}
+
+function refreshTodos(todos){
+    renderTodos(getFilteredTodos(todos , currentFilter));
 
     todoInput.value = '';
+    updateTodoCount();
 }
 
 todoForm.addEventListener('submit' , (e)=>{
@@ -25,10 +30,13 @@ todoForm.addEventListener('submit' , (e)=>{
     e.preventDefault();
 
     const text = todoInput.value.trim();
+    console.log(text);
     if(!text) return;
-    addTodo(text);
+   todos =  addTodo(text , todos);
 
-  refreshTodos();
+   console.log(todos);
+
+  refreshTodos(todos);
 
 })
 
@@ -44,14 +52,14 @@ function handleTodoClick(e){
     console.log(e.target.type);
 
     if(e.target.type==="checkbox"){
-        toggleTodo(id, todos);
-        refreshTodos();
+       todos =  toggleTodo(id, todos);
+        refreshTodos(todos);
 
     }
 
     if(e.target.tagName==="BUTTON"){
-        deleteTodo(id, todos);
-        refreshTodos();
+       todos =  deleteTodo(id, todos);
+        refreshTodos(todos);
     }
 
 
@@ -64,7 +72,7 @@ filter.addEventListener('click' , (e)=>{
 
     const filterVal = button.dataset.filter;
 
-    renderTodos(getFilteredTodos(filterVal));
+    renderTodos(getFilteredTodos(todos , filterVal));
 
     document.querySelectorAll("#filters button").forEach(btn => {
   btn.classList.remove("active-filter");

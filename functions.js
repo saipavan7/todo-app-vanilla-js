@@ -18,15 +18,17 @@ export const renderTodos = (todos)=>{
     
     li.innerHTML = `<input type="checkbox" ${todo.completed?'checked':''}/>
                     <span> ${todo.text} </span>
-                    <button> X </button>`
+                    <button class="edit-button">Edit</button> 
+                    <button class = "delete-button"> X </button>`
 
         todoList.appendChild(li);
 
 });
 }
 
-export function getFilteredTodos(filterVal){
-    const todos = fetchTodos();
+export function getFilteredTodos(todos , filterVal){
+    console.log('getFilterTodos', todos);
+
     if (filterVal == "active"){
         return todos.filter(todo=> !todo.completed);
     }
@@ -41,16 +43,20 @@ const saveTodos = (todos)=>{
 }
 
 
-export const addTodo = (text)=>{
+export const addTodo = (text , todos)=>{
     const newTodo = {
         id:Date.now(),
         text,
         completed:false
     };
-    const allTodos = fetchTodos();
-    allTodos.push(newTodo);
 
-    saveTodos(allTodos);
+    console.log('old todos', todos);
+    console.log('newTodo', newTodo);
+     todos.push(newTodo);
+
+    saveTodos(todos);
+
+    return todos;
 
 }
 
@@ -60,6 +66,7 @@ export function toggleTodo(id, todos){
         )
 
     saveTodos(todos);
+    return todos;
 }
 
 export function deleteTodo(id, todos){
@@ -67,6 +74,8 @@ export function deleteTodo(id, todos){
     todos = todos.filter(todo=> todo.id!==id)
 
     saveTodos(todos);
+
+    return todos;
 
 }
 
