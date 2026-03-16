@@ -1,4 +1,4 @@
-import { fetchTodos , renderTodos , addTodo , toggleTodo, deleteTodo , getFilteredTodos} from "./functions.js";
+import { fetchTodos , renderTodos , addTodo , toggleTodo, deleteTodo , getFilteredTodos, updateTodoText} from "./functions.js";
 
 const todoForm = document.querySelector('#todo-form');
 const todoList = document.querySelector('#todo-list');
@@ -40,6 +40,24 @@ todoForm.addEventListener('submit' , (e)=>{
 
 })
 
+function startEditMode(li){
+    const inputBox = document.createElement("input");
+    const span = li.querySelector(".todo-text");
+    const text = span.textContent.trim();
+    inputBox.value = text;
+    console.log(inputBox);
+    span.replaceWith(inputBox);
+    inputBox.focus();
+
+    inputBox.addEventListener('keydown' , (e)=>{
+        const id  = Number(li.dataset.id);
+        todos = updateTodoText(inputBox.value , id , todos);
+        refreshTodos(todos);
+    })
+    // todos = updateTodoText(inputBox.value , id , todos);
+    // refreshTodos(todos);
+}
+
 todoList.addEventListener('click' , handleTodoClick);
 
 function handleTodoClick(e){
@@ -56,10 +74,14 @@ function handleTodoClick(e){
         refreshTodos(todos);
 
     }
+    console.log(e.target.classList);
 
-    if(e.target.tagName==="BUTTON"){
-       todos =  deleteTodo(id, todos);
-        refreshTodos(todos);
+    if(e.target.classList.contains("edit-button")){
+       startEditMode(li);
+    }
+    if(e.target.classList.contains("delete-button")){
+      todos =  deleteTodo(id , todos);
+      refreshTodos(todos);
     }
 
 
