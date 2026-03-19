@@ -50,9 +50,11 @@ function startEditMode(li){
     inputBox.focus();
 
     inputBox.addEventListener('keydown' , (e)=>{
+        if (e.key === 'Enter') {
         const id  = Number(li.dataset.id);
         todos = updateTodoText(inputBox.value , id , todos);
         refreshTodos(todos);
+        }
     })
     // todos = updateTodoText(inputBox.value , id , todos);
     // refreshTodos(todos);

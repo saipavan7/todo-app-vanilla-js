@@ -2,3 +2,26 @@
   font-weight: bold;
   color: rgb(39, 131, 211);
 }
+
+.todo {
+  margin: 0 auto;
+  text-align: center;
+  width: 30%;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0; /* Optional: removes the default left indentation */
+  margin:0 auto;  /* Optional: removes default outer spacing */
+  
+   display: flex;
+   justify-content: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+li{
+
+  margin: 0 ;
+  
+}
